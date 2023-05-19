@@ -35,16 +35,6 @@ public class PostgresTest {
                 .withUsername("dataone")
                 .withPassword("not_too_secret");
         pg.start();
-
-        // Set up a PostgreSQL datasource for testing (Stores)
-    }
-
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
     }
 
     @Test
@@ -58,7 +48,6 @@ public class PostgresTest {
 
     @Test
     public void pgWasConfigured() {
-        assertNotNull(pg);
         assertTrue(pg.getDatabaseName().equals("dataone"));
         assertTrue(pg.getUsername().equals("dataone"));
         var ports = pg.getExposedPorts();
@@ -68,14 +57,12 @@ public class PostgresTest {
     @Test
     public void testFlywayMigrate() {
         // Use flyway to initialize schema
-        String jdbc = pg.getJdbcUrl();
         flyway = Flyway.configure()
                 .dataSource(pg.getJdbcUrl(), pg.getUsername(), pg.getPassword())
                 .locations("filesystem:migrations")
                 .cleanDisabled(false)
                 .load();
         flyway.migrate();
-        //System.out.println(flyway.info());
     }
 
     @After

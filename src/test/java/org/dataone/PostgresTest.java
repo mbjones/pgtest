@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+// import org.testcontainers.db.AbstractContainerDatabaseTest;
 
 /**
  * Basic Postgres test using TestContainers.
@@ -17,7 +18,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 public class PostgresTest {
 
     /* The embedded postgres database from Testcontainers, used in all tests */
-    private static PostgreSQLContainer pg;
+    private static PostgreSQLContainer<?> pg;
 
     /* A connection to the database */
     static Connection connection;
@@ -29,8 +30,8 @@ public class PostgresTest {
     public void initAll() {
 
         // Configure the embedded PG database
-        pg = new PostgreSQLContainer<>("postgres:14")
-                .withExposedPorts(5432)
+        pg = new PostgreSQLContainer<>("postgres:14");
+        pg.withExposedPorts(5432)
                 .withDatabaseName("dataone")
                 .withUsername("dataone")
                 .withPassword("not_too_secret");
@@ -64,6 +65,12 @@ public class PostgresTest {
                 .load();
         flyway.migrate();
     }
+
+    // public void select() {
+    //     ResultSet resultSet = performQuery(pg, "SELECT 1");
+    //     int resultSetInt = resultSet.getInt(1);
+    //     assertTrue(resultSetInt==1);
+    // }
 
     @After
     public void tearDownAll() {

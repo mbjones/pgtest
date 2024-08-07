@@ -16,7 +16,7 @@ I tried to keep the dependencies to a minimum, and some of these could be replac
 
 # Apple Silicon on Rancher Desktop
 
-For M1, M2, and M3 macs, testcontainers has trouble launching using Rancher Desktop, but there is a workaround by setting an environment variable. First, run: 
+For M1, M2, and M3 macs, testcontainers has trouble launching using Rancher Desktop, but there is a [RD workaround](https://docs.rancherdesktop.io/how-to-guides/using-testcontainers/) by setting an environment variable. First, run: 
 
 ```bash
 $ export TESTCONTAINERS_HOST_OVERRIDE=$(rdctl shell ip a show rd0 | awk '/inet / {sub("/.*",""); print $2}')

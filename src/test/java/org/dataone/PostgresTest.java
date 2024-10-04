@@ -16,6 +16,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -39,7 +40,8 @@ public class PostgresTest {
         pg.withExposedPorts(5432)
                 .withDatabaseName("dataone")
                 .withUsername("dataone")
-                .withPassword("not_too_secret");
+                .withPassword("not_too_secret")
+                .waitingFor(Wait.forListeningPort());
         pg.start();
         
         // Use flyway to initialize schema
@@ -51,6 +53,7 @@ public class PostgresTest {
         flyway.migrate();
     }
 
+    
     @Test
     public void pgShouldStart() {
         assertNotNull(pg);
